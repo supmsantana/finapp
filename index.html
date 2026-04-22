@@ -14,6 +14,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 
+  <!-- OneSignal Push Notifications -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "2f282a41-d856-4d2d-8f37-4a28a9faf7ed",
+        notifyButton: { enable: false },
+        welcomeNotification: { disable: true }
+      });
+    });
+  </script>
+
   <style>
     :root {
       --bg:         #0a0a0f;
@@ -1198,6 +1211,9 @@ function iniciarApp() {
   verificarLembretes();
   setInterval(verificarLembretes, 60000);
 
+  // Solicitar permissão de notificação
+  solicitarPermissaoNotificacao();
+
   // Recuperar email salvo
   const emailSalvo = localStorage.getItem('samurai_email');
   if (emailSalvo) {
@@ -1588,6 +1604,8 @@ function enviarRelatorio() {
 
 /* ============================================================
    LEMBRETES
+   Exibe toast no app + tenta notificação via OneSignal
+   se o usuário tiver dado permissão
 ============================================================ */
 function verificarLembretes() {
   const agora = new Date();
@@ -1600,12 +1618,39 @@ function verificarLembretes() {
   let salvou = false;
   compromissos.forEach(c => {
     if ((c.data + 'T' + c.hora) === str && !c.lembrete_enviado) {
+      // Toast dentro do app
       showToast('⏰ Lembrete: ' + c.desc, 'lembrete');
+
+      // Notificação nativa do navegador (funciona mesmo com app em segundo plano)
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('⏰ Samurai Finanças', {
+          body: c.desc,
+          icon: 'icons/icon-192.png',
+          badge: 'icons/icon-192.png'
+        });
+      } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(perm => {
+          if (perm === 'granted') {
+            new Notification('⏰ Samurai Finanças', {
+              body: c.desc,
+              icon: 'icons/icon-192.png'
+            });
+          }
+        });
+      }
+
       c.lembrete_enviado = true;
       salvou = true;
     }
   });
   if (salvou) salvarCompromissos();
+}
+
+// Solicita permissão de notificação ao abrir o app
+function solicitarPermissaoNotificacao() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
 }
 
 /* ============================================================
