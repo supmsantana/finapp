@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="FinApp" />
-  <title>FinApp</title>
-
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- Ícone Apple Touch -->
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#0a0a0f"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Samurai"/>
+  <title>Samurai Finanças</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 
   <style>
-    /* ===========================
-       VARIÁVEIS E RESET
-    =========================== */
     :root {
-      --bg:          #0f172a;
-      --surface:     #1e293b;
-      --surface2:    #263449;
-      --border:      rgba(148,163,184,0.12);
-      --text:        #e2e8f0;
-      --text-muted:  #94a3b8;
-      --green:       #22d3a0;
-      --green-dim:   rgba(34,211,160,0.12);
-      --red:         #f87171;
-      --red-dim:     rgba(248,113,113,0.12);
-      --blue:        #60a5fa;
-      --blue-dim:    rgba(96,165,250,0.12);
-      --accent:      #818cf8;
-      --accent-dim:  rgba(129,140,248,0.15);
-      --radius:      14px;
-      --radius-sm:   8px;
-      --shadow:      0 4px 24px rgba(0,0,0,0.35);
-      --font:        'DM Sans', sans-serif;
-      --mono:        'DM Mono', monospace;
+      --bg:         #0a0a0f;
+      --bg2:        #0f0f18;
+      --surface:    #13131e;
+      --surface2:   #1a1a28;
+      --surface3:   #22223a;
+      --border:     rgba(180,160,255,0.1);
+      --border2:    rgba(180,160,255,0.18);
+      --text:       #e8e6f0;
+      --text-muted: #8880a8;
+      --gold:       #e8b84b;
+      --gold-dim:   rgba(232,184,75,0.12);
+      --gold-glow:  rgba(232,184,75,0.25);
+      --green:      #3dd68c;
+      --green-dim:  rgba(61,214,140,0.1);
+      --red:        #f06060;
+      --red-dim:    rgba(240,96,96,0.1);
+      --purple:     #a78bfa;
+      --purple-dim: rgba(167,139,250,0.1);
+      --blue:       #60b4fa;
+      --blue-dim:   rgba(96,180,250,0.1);
+      --orange:     #fb923c;
+      --orange-dim: rgba(251,146,60,0.1);
+      --radius:     16px;
+      --radius-sm:  10px;
+      --shadow:     0 8px 32px rgba(0,0,0,0.5);
+      --font:       'IBM Plex Sans', sans-serif;
+      --serif:      'Noto Serif JP', serif;
+      --mono:       'IBM Plex Mono', monospace;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,171 +56,507 @@
       font-size: 15px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ===========================
-       ESTRUTURA BASE
-    =========================== */
-    #app {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 0 0 80px;
-      min-height: 100vh;
+    /* ===================== PIN SCREEN ===================== */
+    #pin-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
     }
+
+    .pin-logo {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+    }
+
+    .pin-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .pin-katana {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 48px;
+    }
+
+    .pin-title {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      letter-spacing: 0.08em;
+    }
+
+    .pin-dots {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      background: transparent;
+      transition: all 0.2s;
+    }
+
+    .pin-dot.filled {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .pin-dot.error {
+      background: var(--red);
+      border-color: var(--red);
+      animation: shake 0.4s ease;
+    }
+
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 260px;
+    }
+
+    .pin-btn {
+      height: 64px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-btn:active {
+      background: var(--surface3);
+      border-color: var(--gold);
+      transform: scale(0.95);
+    }
+
+    .pin-btn.del {
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+
+    .pin-msg {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--text-muted);
+      min-height: 18px;
+    }
+
+    .pin-first {
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 16px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ===================== APP ===================== */
+    #app { display: none; max-width: 480px; margin: 0 auto; padding-bottom: 80px; min-height: 100vh; }
+    #app.visible { display: block; }
 
     /* Header */
     header {
-      padding: 24px 20px 16px;
+      padding: 20px 20px 0;
+      background: var(--bg);
       position: sticky;
       top: 0;
       z-index: 10;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
     }
 
-    .header-top {
+    .header-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .logo {
-      font-size: 22px;
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-name {
+      font-family: var(--serif);
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--text);
+      color: var(--gold);
+      letter-spacing: 0.5px;
     }
 
-    .logo span { color: var(--accent); }
+    .logo-tag {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
     .header-date {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       font-family: var(--mono);
     }
 
-    /* Tabs de navegação */
+    .btn-lock {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-lock:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Tabs */
     .tabs {
       display: flex;
-      gap: 6px;
-      padding: 14px 20px 0;
-      border-bottom: 1px solid var(--border);
+      gap: 0;
       background: var(--bg);
+      border-bottom: 1px solid var(--border);
     }
 
     .tab-btn {
       flex: 1;
-      padding: 9px 4px;
+      padding: 12px 4px;
       background: none;
       border: none;
       border-bottom: 2px solid transparent;
       color: var(--text-muted);
       font-family: var(--font);
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
       cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
+      transition: all 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
     }
 
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
 
     /* Seções */
-    .section {
-      padding: 20px;
-      display: none;
-    }
-
+    .section { padding: 18px; display: none; }
     .section.active { display: block; }
 
-    /* ===========================
-       CARDS RESUMO
-    =========================== */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .summary-card {
+    /* ===================== RESUMO ===================== */
+    .saldo-hero {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 14px 16px;
       border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .summary-card.full { grid-column: 1 / -1; }
+    .saldo-hero::before {
+      content: '¥';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: 80px;
+      color: rgba(232,184,75,0.05);
+      line-height: 1;
+    }
 
-    .summary-label {
-      font-size: 11px;
+    .saldo-label {
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-muted);
       margin-bottom: 6px;
     }
 
-    .summary-value {
-      font-size: 22px;
-      font-weight: 700;
+    .saldo-valor {
       font-family: var(--mono);
-      letter-spacing: -0.5px;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: -1px;
     }
 
-    .summary-value.green { color: var(--green); }
-    .summary-value.red   { color: var(--red); }
-    .summary-value.saldo-pos { color: var(--text); }
-    .summary-value.saldo-neg { color: var(--red); }
+    .saldo-valor.pos { color: var(--text); }
+    .saldo-valor.neg { color: var(--red); }
 
-    /* ===========================
-       FORMULÁRIO
-    =========================== */
+    .saldo-linha {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 10px 0;
+      border-radius: 2px;
+    }
+
+    .saldo-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .saldo-meta span { color: var(--gold); font-weight: 600; }
+
+    /* Barra de progresso de gastos */
+    .progresso-wrap {
+      margin-top: 12px;
+    }
+
+    .progresso-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .progresso-bar {
+      height: 6px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progresso-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.6s ease;
+      background: var(--green);
+    }
+
+    .progresso-fill.alerta { background: var(--orange); }
+    .progresso-fill.critico { background: var(--red); }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .summary-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .summary-valor {
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .summary-valor.green { color: var(--green); }
+    .summary-valor.red   { color: var(--red); }
+
+    /* ===================== GRÁFICO PIZZA ===================== */
+    .grafico-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .grafico-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .pizza-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #canvas-pizza {
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+
+    .pizza-legenda {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .legenda-cor {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .legenda-nome {
+      flex: 1;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .legenda-pct {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Gráfico barras */
+    .barras-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .barra-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .barra-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      width: 70px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .barra-track {
+      flex: 1;
+      height: 8px;
+      background: var(--surface3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .barra-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+
+    .barra-val {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      width: 70px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ===================== FORMULÁRIO ===================== */
     .card {
       background: var(--surface);
       border-radius: var(--radius);
       padding: 18px;
       border: 1px solid var(--border);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .card-title {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-muted);
       margin-bottom: 14px;
     }
 
-    .form-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      flex: 1;
-    }
+    .form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; flex: 1; }
 
     label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    input, select, textarea {
+    input, select {
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -233,22 +569,14 @@
       width: 100%;
     }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
+    input:focus, select:focus { border-color: var(--gold); }
     select option { background: var(--surface); }
 
-    /* Tipo entrada/saída */
-    .tipo-group {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    .tipo-group { display: flex; gap: 8px; margin-bottom: 10px; }
 
     .tipo-btn {
       flex: 1;
-      padding: 9px;
+      padding: 10px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: var(--surface2);
@@ -260,69 +588,59 @@
       transition: all 0.2s;
     }
 
-    .tipo-btn.entrada.active {
-      background: var(--green-dim);
-      border-color: var(--green);
-      color: var(--green);
-    }
+    .tipo-btn.entrada.active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+    .tipo-btn.saida.active   { background: var(--red-dim); border-color: var(--red); color: var(--red); }
 
-    .tipo-btn.saida.active {
-      background: var(--red-dim);
-      border-color: var(--red);
-      color: var(--red);
-    }
-
-    /* Botão principal */
     .btn-primary {
       width: 100%;
       padding: 13px;
-      background: var(--accent);
+      background: var(--gold);
       border: none;
       border-radius: var(--radius-sm);
-      color: #fff;
+      color: #0a0a0f;
       font-family: var(--font);
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       margin-top: 4px;
       transition: opacity 0.2s, transform 0.1s;
+      letter-spacing: 0.03em;
     }
 
     .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
 
-    .btn-secondary {
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text-muted);
-      font-family: var(--font);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: border-color 0.2s, color 0.2s;
+    /* ===================== LISTA ===================== */
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ===========================
-       LISTA DE LANÇAMENTOS
-    =========================== */
     .list-title {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 10px;
+    }
+
+    .filtro-mes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 5px 8px;
+      outline: none;
+      cursor: pointer;
     }
 
     .lancamento-item {
       background: var(--surface);
       border-radius: var(--radius-sm);
-      padding: 13px 14px;
+      padding: 12px 14px;
       margin-bottom: 8px;
       border: 1px solid var(--border);
       display: flex;
@@ -335,26 +653,45 @@
     .lancamento-item.entrada { border-left: 3px solid var(--green); }
     .lancamento-item.saida   { border-left: 3px solid var(--red); }
 
+    .lancamento-cat {
+      font-size: 16px;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
     .lancamento-desc {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 180px;
+      max-width: 130px;
+    }
+
+    .lancamento-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lancamento-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--surface3);
+      color: var(--text-muted);
     }
 
     .lancamento-date {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
       font-family: var(--mono);
     }
 
     .lancamento-valor {
       font-family: var(--mono);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       white-space: nowrap;
     }
@@ -367,22 +704,20 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       padding: 4px 6px;
       border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
+      transition: all 0.2s;
       flex-shrink: 0;
     }
 
     .btn-del:hover { color: var(--red); background: var(--red-dim); }
 
-    /* ===========================
-       AGENDA
-    =========================== */
+    /* ===================== COMPROMISSOS ===================== */
     .compromisso-item {
       background: var(--surface);
       border-radius: var(--radius-sm);
-      padding: 13px 14px;
+      padding: 12px 14px;
       margin-bottom: 8px;
       border: 1px solid var(--border);
       border-left: 3px solid var(--blue);
@@ -393,44 +728,88 @@
       animation: fadeIn 0.25s ease;
     }
 
-    .compromisso-item.passado { border-left-color: var(--text-muted); opacity: 0.6; }
+    .compromisso-item.passado { border-left-color: var(--text-muted); opacity: 0.5; }
 
-    .compromisso-desc {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 3px;
-    }
-
-    .compromisso-dt {
-      font-size: 11px;
-      color: var(--blue);
-      font-family: var(--mono);
-    }
-
+    .compromisso-desc { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+    .compromisso-dt   { font-size: 10px; color: var(--blue); font-family: var(--mono); }
     .compromisso-item.passado .compromisso-dt { color: var(--text-muted); }
 
-    /* ===========================
-       EMPTY STATE
-    =========================== */
+    /* ===================== EMPTY STATE ===================== */
     .empty-state {
       text-align: center;
-      padding: 36px 20px;
+      padding: 32px 20px;
       color: var(--text-muted);
       font-size: 13px;
     }
 
-    .empty-state span { display: block; font-size: 28px; margin-bottom: 8px; }
+    .empty-state span { display: block; font-size: 30px; margin-bottom: 8px; }
 
-    /* ===========================
-       TOAST / NOTIFICAÇÃO
-    =========================== */
+    /* ===================== ALERTA ===================== */
+    .alerta-box {
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--red);
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .alerta-box.visible { display: block; }
+
+    /* ===================== EMAIL CARD ===================== */
+    .email-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .email-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .email-row input {
+      flex: 1;
+    }
+
+    .btn-email {
+      padding: 10px 14px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-sm);
+      color: var(--gold);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-email:hover { background: var(--gold-dim); }
+    .btn-email:active { transform: scale(0.97); }
+
+    .email-salvo {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .email-salvo span { color: var(--gold); }
+
+    /* ===================== TOAST ===================== */
     #toast-container {
       position: fixed;
       bottom: 90px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 100;
+      z-index: 500;
       width: 90%;
       max-width: 400px;
       pointer-events: none;
@@ -438,9 +817,9 @@
 
     .toast {
       background: var(--surface2);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border2);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 11px 15px;
       font-size: 13px;
       color: var(--text);
       margin-bottom: 8px;
@@ -448,205 +827,396 @@
       box-shadow: var(--shadow);
     }
 
-    .toast.lembrete {
-      border-color: var(--blue);
-      background: var(--blue-dim);
-      color: var(--blue);
-    }
+    .toast.lembrete { border-color: var(--blue); color: var(--blue); }
+    .toast.sucesso  { border-color: var(--green); color: var(--green); }
+    .toast.erro     { border-color: var(--red); color: var(--red); }
 
-    .toast.sucesso { border-color: var(--green); color: var(--green); }
-    .toast.erro    { border-color: var(--red); color: var(--red); }
+    /* ===================== ANIMAÇÕES ===================== */
+    @keyframes fadeIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeOut { to { opacity:0; } }
+    @keyframes shake   { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 60%{transform:translateX(6px)} }
 
-    /* ===========================
-       ANIMAÇÕES
-    =========================== */
-    @keyframes fadeIn   { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideUp  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeOut  { to { opacity: 0; } }
-
-    /* ===========================
-       SCROLLBAR
-    =========================== */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
   </style>
 </head>
-
 <body>
-<div id="app">
 
-  <!-- HEADER -->
+<!-- ===================== TELA PIN ===================== -->
+<div id="pin-screen">
+  <div class="pin-logo">侍 Samurai</div>
+  <div class="pin-sub">Finanças</div>
+  <div class="pin-katana"></div>
+  <div class="pin-title" id="pin-title">Digite seu PIN</div>
+  <div class="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-grid">
+    <button class="pin-btn" onclick="pinDigit('1')">1</button>
+    <button class="pin-btn" onclick="pinDigit('2')">2</button>
+    <button class="pin-btn" onclick="pinDigit('3')">3</button>
+    <button class="pin-btn" onclick="pinDigit('4')">4</button>
+    <button class="pin-btn" onclick="pinDigit('5')">5</button>
+    <button class="pin-btn" onclick="pinDigit('6')">6</button>
+    <button class="pin-btn" onclick="pinDigit('7')">7</button>
+    <button class="pin-btn" onclick="pinDigit('8')">8</button>
+    <button class="pin-btn" onclick="pinDigit('9')">9</button>
+    <button class="pin-btn" onclick="pinDigit('0')" style="grid-column:2">0</button>
+    <button class="pin-btn del" onclick="pinDel()">⌫</button>
+  </div>
+  <div class="pin-msg" id="pin-msg"></div>
+  <div class="pin-first" id="pin-first"></div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app">
   <header>
-    <div class="header-top">
-      <div class="logo">Fin<span>App</span></div>
-      <div class="header-date" id="header-date"></div>
+    <div class="header-inner">
+      <div class="logo-mark">
+        <div class="logo-icon">侍</div>
+        <div class="logo-text">
+          <div class="logo-name">Samurai</div>
+          <div class="logo-tag">Finanças</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-date" id="header-date"></div>
+        <button class="btn-lock" onclick="bloquear()" title="Bloquear">🔒</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="mudarTab('dashboard')" id="tab-dashboard">📊 Painel</button>
+      <button class="tab-btn" onclick="mudarTab('financas')" id="tab-financas">💰 Finanças</button>
+      <button class="tab-btn" onclick="mudarTab('agenda')" id="tab-agenda">📅 Agenda</button>
     </div>
   </header>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="mudarTab('financas')" id="tab-financas">
-      💰 Finanças
-    </button>
-    <button class="tab-btn" onclick="mudarTab('agenda')" id="tab-agenda">
-      📅 Agenda
-    </button>
-  </div>
+  <!-- ===================== DASHBOARD ===================== -->
+  <div class="section active" id="sec-dashboard">
 
-  <!-- =====================
-       SEÇÃO FINANÇAS
-  ===================== -->
-  <div class="section active" id="sec-financas">
+    <div class="alerta-box" id="alerta-gastos">
+      ⚠️ Atenção: seus gastos estão altos este mês. Revise suas despesas.
+    </div>
 
-    <!-- Cards resumo -->
-    <div class="summary-grid">
-      <div class="summary-card">
-        <div class="summary-label">Entradas</div>
-        <div class="summary-value green" id="total-entradas">R$ 0,00</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">Saídas</div>
-        <div class="summary-value red" id="total-saidas">R$ 0,00</div>
-      </div>
-      <div class="summary-card full">
-        <div class="summary-label">Saldo Atual</div>
-        <div class="summary-value saldo-pos" id="saldo-atual">R$ 0,00</div>
+    <div class="saldo-hero">
+      <div class="saldo-label">Saldo Atual</div>
+      <div class="saldo-valor pos" id="dash-saldo">R$ 0,00</div>
+      <div class="saldo-linha"></div>
+      <div class="saldo-meta" id="dash-meta">Nenhum dado registrado ainda.</div>
+      <div class="progresso-wrap" id="progresso-wrap" style="display:none">
+        <div class="progresso-label">
+          <span>Gastos do mês</span>
+          <span id="progresso-pct">0%</span>
+        </div>
+        <div class="progresso-bar">
+          <div class="progresso-fill" id="progresso-fill" style="width:0%"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Formulário novo lançamento -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Entradas</div>
+        <div class="summary-valor green" id="dash-entradas">R$ 0,00</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Saídas</div>
+        <div class="summary-valor red" id="dash-saidas">R$ 0,00</div>
+      </div>
+    </div>
+
+    <!-- Gráfico por categoria -->
+    <div class="grafico-card" id="grafico-cat-card">
+      <div class="grafico-title">Gastos por Categoria</div>
+      <div class="pizza-wrap">
+        <canvas id="canvas-pizza" width="120" height="120"></canvas>
+        <div class="pizza-legenda" id="pizza-legenda">
+          <div style="font-size:12px;color:var(--text-muted)">Sem dados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico barras categorias -->
+    <div class="grafico-card">
+      <div class="grafico-title">Maiores Despesas por Categoria</div>
+      <div class="barras-wrap" id="barras-cat"></div>
+    </div>
+
+    <!-- Enviar relatório por email -->
+    <div class="email-card">
+      <div class="card-title">📧 Enviar Relatório por E-mail</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">
+        Envia o resumo financeiro do mês selecionado para o seu e-mail.
+      </div>
+      <div class="email-row">
+        <input type="email" id="email-destino" placeholder="seu@email.com" maxlength="100"/>
+        <button class="btn-email" onclick="enviarRelatorio()">Enviar</button>
+      </div>
+      <div class="email-salvo" id="email-salvo"></div>
+    </div>
+
+  </div>
+
+  <!-- ===================== FINANÇAS ===================== -->
+  <div class="section" id="sec-financas">
+
     <div class="card">
       <div class="card-title">Novo Lançamento</div>
 
       <div class="form-group" style="margin-bottom:10px">
         <label>Descrição</label>
-        <input type="text" id="fin-desc" placeholder="Ex: Salário, Aluguel..." maxlength="60" />
+        <input type="text" id="fin-desc" placeholder="Ex: Salário, Mercado..." maxlength="60"/>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>Valor (R$)</label>
-          <input type="number" id="fin-valor" placeholder="0,00" min="0" step="0.01" />
+          <input type="number" id="fin-valor" placeholder="0,00" min="0" step="0.01"/>
         </div>
         <div class="form-group">
           <label>Data</label>
-          <input type="date" id="fin-data" />
+          <input type="date" id="fin-data"/>
         </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:10px">
+        <label>Categoria</label>
+        <select id="fin-cat">
+          <optgroup label="Receitas">
+            <option value="Salário">💼 Salário</option>
+            <option value="Freelance">💻 Freelance</option>
+            <option value="Investimento">📈 Investimento</option>
+            <option value="Outros (entrada)">➕ Outros</option>
+          </optgroup>
+          <optgroup label="Despesas">
+            <option value="Alimentação">🍽️ Alimentação</option>
+            <option value="Transporte">🚗 Transporte</option>
+            <option value="Moradia">🏠 Moradia</option>
+            <option value="Saúde">💊 Saúde</option>
+            <option value="Educação">📚 Educação</option>
+            <option value="Lazer">🎮 Lazer</option>
+            <option value="Vestuário">👕 Vestuário</option>
+            <option value="Contas">💡 Contas</option>
+            <option value="Outros (saída)">➖ Outros</option>
+          </optgroup>
+        </select>
       </div>
 
       <div class="tipo-group">
-        <button class="tipo-btn entrada active" id="btn-entrada" onclick="selecionarTipo('entrada')">
-          ↑ Entrada
-        </button>
-        <button class="tipo-btn saida" id="btn-saida" onclick="selecionarTipo('saida')">
-          ↓ Saída
-        </button>
+        <button class="tipo-btn entrada active" id="btn-entrada" onclick="selecionarTipo('entrada')">↑ Entrada</button>
+        <button class="tipo-btn saida" id="btn-saida" onclick="selecionarTipo('saida')">↓ Saída</button>
       </div>
 
-      <button class="btn-primary" onclick="adicionarLancamento()">Registrar</button>
+      <button class="btn-primary" onclick="adicionarLancamento()">Registrar Lançamento</button>
     </div>
 
-    <!-- Lista de lançamentos -->
-    <div class="list-title">Lançamentos</div>
+    <div class="list-header">
+      <div class="list-title">Lançamentos</div>
+      <select class="filtro-mes" id="filtro-mes" onchange="renderLancamentos()"></select>
+    </div>
     <div id="lista-lancamentos"></div>
   </div>
 
-  <!-- =====================
-       SEÇÃO AGENDA
-  ===================== -->
+  <!-- ===================== AGENDA ===================== -->
   <div class="section" id="sec-agenda">
-
-    <!-- Formulário novo compromisso -->
     <div class="card">
       <div class="card-title">Novo Compromisso</div>
-
       <div class="form-group" style="margin-bottom:10px">
         <label>Descrição</label>
-        <input type="text" id="comp-desc" placeholder="Ex: Reunião, Consulta..." maxlength="60" />
+        <input type="text" id="comp-desc" placeholder="Ex: Reunião, Consulta..." maxlength="60"/>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label>Data</label>
-          <input type="date" id="comp-data" />
+          <input type="date" id="comp-data"/>
         </div>
         <div class="form-group">
           <label>Hora</label>
-          <input type="time" id="comp-hora" />
+          <input type="time" id="comp-hora"/>
         </div>
       </div>
-
       <button class="btn-primary" onclick="adicionarCompromisso()">Agendar</button>
     </div>
 
-    <!-- Lista de compromissos -->
-    <div class="list-title">Compromissos</div>
+    <div class="list-title" style="margin-bottom:10px">Compromissos</div>
     <div id="lista-compromissos"></div>
   </div>
-
 </div>
 
-<!-- Container de toasts -->
 <div id="toast-container"></div>
 
-<!-- =====================
-     JAVASCRIPT
-===================== -->
 <script>
 /* ============================================================
-   ESTADO DA APLICAÇÃO
-   Todos os dados ficam em memória e são persistidos via localStorage
+   FUTURA INTEGRAÇÃO WHATSAPP (Meta API)
+   1. Obter token e PHONE_NUMBER_ID no Meta for Developers
+   2. POST https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages
+   3. Headers: { Authorization: "Bearer TOKEN", Content-Type: "application/json" }
+   4. Body: { messaging_product:"whatsapp", to:"55219XXXXXXXX", type:"text", text:{body:"msg"} }
+   const WA_TOKEN    = "";
+   const WA_PHONE_ID = "";
+   async function enviarWhatsApp(numero, msg) { ... }
 ============================================================ */
 
-// ---- Futura integração WhatsApp (Meta API) ----
-// Para integrar com a API oficial do WhatsApp Business no futuro:
-// 1. Criar conta no Meta Business Suite e cadastrar número
-// 2. Obter token de acesso permanente no painel Meta for Developers
-// 3. Usar endpoint: POST https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages
-//    com headers: { Authorization: "Bearer SEU_TOKEN", Content-Type: "application/json" }
-//    body: { messaging_product: "whatsapp", to: "5521XXXXXXXXX", type: "text", text: { body: "mensagem" } }
-// 4. A função de envio pode ser chamada ao adicionar lançamentos ou lembretes de compromissos
-// const WHATSAPP_TOKEN = "";         // <-- preencher futuramente
-// const WHATSAPP_PHONE_ID = "";      // <-- preencher futuramente
-// async function enviarWhatsApp(numero, mensagem) { /* implementar */ }
-// -------------------------------------------------------
+/* ============================================================
+   CATEGORIAS
+============================================================ */
+const CAT_EMOJI = {
+  'Salário':'💼','Freelance':'💻','Investimento':'📈','Outros (entrada)':'➕',
+  'Alimentação':'🍽️','Transporte':'🚗','Moradia':'🏠','Saúde':'💊',
+  'Educação':'📚','Lazer':'🎮','Vestuário':'👕','Contas':'💡','Outros (saída)':'➖'
+};
 
-let lancamentos  = JSON.parse(localStorage.getItem('finapp_lancamentos') || '[]');
-let compromissos = JSON.parse(localStorage.getItem('finapp_compromissos') || '[]');
+const CAT_CORES = [
+  '#e8b84b','#3dd68c','#f06060','#60b4fa','#a78bfa',
+  '#fb923c','#34d399','#f472b6','#818cf8','#facc15','#38bdf8','#4ade80'
+];
+
+/* ============================================================
+   ESTADO
+============================================================ */
+let lancamentos  = JSON.parse(localStorage.getItem('samurai_lancamentos')  || '[]');
+let compromissos = JSON.parse(localStorage.getItem('samurai_compromissos') || '[]');
 let tipoSelecionado = 'entrada';
+
+/* ============================================================
+   PIN
+============================================================ */
+const PIN_KEY      = 'samurai_pin';
+let   pinBuffer    = '';
+let   pinCriando   = false;
+let   pinConfirm   = '';
+let   pinTemp      = '';
+
+function initPin() {
+  const pinSalvo = localStorage.getItem(PIN_KEY);
+  if (!pinSalvo) {
+    pinCriando = true;
+    document.getElementById('pin-title').textContent = 'Crie seu PIN de 4 dígitos';
+    document.getElementById('pin-first').textContent = 'Primeira vez? Defina um PIN para proteger seu app.';
+  } else {
+    document.getElementById('pin-title').textContent = 'Digite seu PIN';
+  }
+}
+
+function pinDigit(d) {
+  if (pinBuffer.length >= 4) return;
+  pinBuffer += d;
+  atualizarDots(false);
+  if (pinBuffer.length === 4) {
+    setTimeout(() => processarPin(), 200);
+  }
+}
+
+function pinDel() {
+  pinBuffer = pinBuffer.slice(0, -1);
+  atualizarDots(false);
+}
+
+function atualizarDots(erro) {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('d' + i);
+    dot.className = 'pin-dot';
+    if (erro) dot.classList.add('error');
+    else if (i < pinBuffer.length) dot.classList.add('filled');
+  }
+}
+
+function processarPin() {
+  const pinSalvo = localStorage.getItem(PIN_KEY);
+
+  if (pinCriando) {
+    if (!pinConfirm) {
+      pinTemp    = pinBuffer;
+      pinBuffer  = '';
+      pinConfirm = pinTemp;
+      document.getElementById('pin-title').textContent = 'Confirme seu PIN';
+      document.getElementById('pin-first').textContent = '';
+      atualizarDots(false);
+    } else {
+      if (pinBuffer === pinConfirm) {
+        localStorage.setItem(PIN_KEY, pinBuffer);
+        abrirApp();
+      } else {
+        document.getElementById('pin-msg').textContent = 'PINs diferentes. Tente novamente.';
+        pinBuffer  = '';
+        pinConfirm = '';
+        pinCriando = true;
+        document.getElementById('pin-title').textContent = 'Crie seu PIN de 4 dígitos';
+        atualizarDots(true);
+        setTimeout(() => { atualizarDots(false); document.getElementById('pin-msg').textContent = ''; }, 600);
+      }
+    }
+  } else {
+    if (pinBuffer === pinSalvo) {
+      abrirApp();
+    } else {
+      document.getElementById('pin-msg').textContent = 'PIN incorreto.';
+      atualizarDots(true);
+      pinBuffer = '';
+      setTimeout(() => { atualizarDots(false); document.getElementById('pin-msg').textContent = ''; }, 600);
+    }
+  }
+}
+
+function abrirApp() {
+  document.getElementById('pin-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  iniciarApp();
+}
+
+function bloquear() {
+  pinBuffer  = '';
+  pinConfirm = '';
+  pinCriando = false;
+  atualizarDots(false);
+  document.getElementById('pin-title').textContent = 'Digite seu PIN';
+  document.getElementById('pin-screen').style.display = 'flex';
+  document.getElementById('app').classList.remove('visible');
+}
 
 /* ============================================================
    INICIALIZAÇÃO
 ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  // Data atual no header
+function iniciarApp() {
   const agora = new Date();
   document.getElementById('header-date').textContent =
-    agora.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+    agora.toLocaleDateString('pt-BR', { weekday: 'short', day:'2-digit', month:'short' });
 
-  // Preencher data de hoje nos formulários
   const hoje = agora.toISOString().split('T')[0];
   document.getElementById('fin-data').value  = hoje;
   document.getElementById('comp-data').value = hoje;
 
+  popularFiltroMes();
+  renderDashboard();
   renderLancamentos();
   renderCompromissos();
-  atualizarResumo();
 
-  // Verificar lembretes a cada minuto
   verificarLembretes();
   setInterval(verificarLembretes, 60000);
-});
+
+  // Recuperar email salvo
+  const emailSalvo = localStorage.getItem('samurai_email');
+  if (emailSalvo) {
+    document.getElementById('email-destino').value = emailSalvo;
+    document.getElementById('email-salvo').innerHTML = 'E-mail salvo: <span>' + escHtml(emailSalvo) + '</span>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initPin);
 
 /* ============================================================
-   NAVEGAÇÃO POR TABS
+   TABS
 ============================================================ */
 function mudarTab(tab) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + tab).classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'dashboard') renderDashboard();
 }
 
 /* ============================================================
@@ -662,29 +1232,20 @@ function adicionarLancamento() {
   const desc  = document.getElementById('fin-desc').value.trim();
   const valor = parseFloat(document.getElementById('fin-valor').value);
   const data  = document.getElementById('fin-data').value;
+  const cat   = document.getElementById('fin-cat').value;
 
-  if (!desc)            return showToast('Informe a descrição.', 'erro');
+  if (!desc)             return showToast('Informe a descrição.', 'erro');
   if (!valor || valor <= 0) return showToast('Informe um valor válido.', 'erro');
-  if (!data)            return showToast('Informe a data.', 'erro');
+  if (!data)             return showToast('Informe a data.', 'erro');
 
-  const novo = {
-    id: Date.now(),
-    desc,
-    valor,
-    tipo: tipoSelecionado,
-    data
-  };
-
-  lancamentos.unshift(novo);
+  lancamentos.unshift({ id: Date.now(), desc, valor, tipo: tipoSelecionado, data, cat });
   salvarLancamentos();
+  popularFiltroMes();
   renderLancamentos();
-  atualizarResumo();
+  renderDashboard();
 
-  // Limpar campos
   document.getElementById('fin-desc').value  = '';
   document.getElementById('fin-valor').value = '';
-  selecionarTipo('entrada');
-
   showToast(tipoSelecionado === 'entrada' ? '✅ Entrada registrada!' : '✅ Saída registrada!', 'sucesso');
 }
 
@@ -692,52 +1253,203 @@ function excluirLancamento(id) {
   lancamentos = lancamentos.filter(l => l.id !== id);
   salvarLancamentos();
   renderLancamentos();
-  atualizarResumo();
+  renderDashboard();
   showToast('Lançamento removido.', '');
 }
 
 function salvarLancamentos() {
-  localStorage.setItem('finapp_lancamentos', JSON.stringify(lancamentos));
+  localStorage.setItem('samurai_lancamentos', JSON.stringify(lancamentos));
 }
 
-function atualizarResumo() {
-  const entradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
-  const saidas   = lancamentos.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
-  const saldo    = entradas - saidas;
+/* ============================================================
+   FILTRO MÊS
+============================================================ */
+function popularFiltroMes() {
+  const sel  = document.getElementById('filtro-mes');
+  const atual = sel.value;
+  const meses = [...new Set(lancamentos.map(l => l.data.substring(0,7)))].sort().reverse();
+  const agora = new Date().toISOString().substring(0,7);
+  if (!meses.includes(agora)) meses.unshift(agora);
 
-  document.getElementById('total-entradas').textContent = formatBRL(entradas);
-  document.getElementById('total-saidas').textContent   = formatBRL(saidas);
-
-  const el = document.getElementById('saldo-atual');
-  el.textContent = formatBRL(saldo);
-  el.className = 'summary-value ' + (saldo >= 0 ? 'saldo-pos' : 'saldo-neg');
+  sel.innerHTML = meses.map(m => {
+    const [a,mo] = m.split('-');
+    const label = new Date(a, mo-1, 1).toLocaleDateString('pt-BR', { month:'short', year:'numeric' });
+    return '<option value="' + m + '"' + (m === (atual||agora) ? ' selected' : '') + '>' + label + '</option>';
+  }).join('');
 }
 
+function mesSelecionado() {
+  return document.getElementById('filtro-mes').value || new Date().toISOString().substring(0,7);
+}
+
+/* ============================================================
+   RENDER LANÇAMENTOS
+============================================================ */
 function renderLancamentos() {
-  const el = document.getElementById('lista-lancamentos');
+  const mes = mesSelecionado();
+  const lista = lancamentos.filter(l => l.data.startsWith(mes));
+  const el    = document.getElementById('lista-lancamentos');
 
-  if (!lancamentos.length) {
-    el.innerHTML = '<div class="empty-state"><span>💸</span>Nenhum lançamento ainda.</div>';
+  if (!lista.length) {
+    el.innerHTML = '<div class="empty-state"><span>💸</span>Nenhum lançamento neste mês.</div>';
     return;
   }
 
-  el.innerHTML = lancamentos.map(l => {
-    const dataFmt = new Date(l.data + 'T00:00:00').toLocaleDateString('pt-BR', {
-      day: '2-digit', month: 'short', year: 'numeric'
-    });
-    const sinal = l.tipo === 'entrada' ? '+' : '-';
-    const cor   = l.tipo === 'entrada' ? 'green' : 'red';
+  el.innerHTML = lista.map(l => {
+    const emoji  = CAT_EMOJI[l.cat] || '📌';
+    const dataFmt = new Date(l.data + 'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'short' });
+    const sinal   = l.tipo === 'entrada' ? '+' : '-';
+    const cor     = l.tipo === 'entrada' ? 'green' : 'red';
 
     return (
       '<div class="lancamento-item ' + l.tipo + '">' +
-        '<div>' +
-          '<div class="lancamento-desc">' + escHtml(l.desc) + '</div>' +
-          '<div class="lancamento-date">' + dataFmt + '</div>' +
+        '<div style="display:flex;align-items:center;gap:6px;min-width:0">' +
+          '<span class="lancamento-cat">' + emoji + '</span>' +
+          '<div style="min-width:0">' +
+            '<div class="lancamento-desc">' + escHtml(l.desc) + '</div>' +
+            '<div class="lancamento-info">' +
+              '<span class="lancamento-tag">' + escHtml(l.cat||'') + '</span>' +
+              '<span class="lancamento-date">' + dataFmt + '</span>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:8px">' +
-          '<div class="lancamento-valor ' + cor + '">' + sinal + ' ' + formatBRL(l.valor) + '</div>' +
-          '<button class="btn-del" onclick="excluirLancamento(' + l.id + ')" title="Excluir">✕</button>' +
+          '<div class="lancamento-valor ' + cor + '">' + sinal + ' ' + fmtBRL(l.valor) + '</div>' +
+          '<button class="btn-del" onclick="excluirLancamento(' + l.id + ')">✕</button>' +
         '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+function renderDashboard() {
+  const mes      = mesSelecionado ? mesSelecionado() : new Date().toISOString().substring(0,7);
+  const doMes    = lancamentos.filter(l => l.data.startsWith(mes));
+  const entradas = doMes.filter(l => l.tipo === 'entrada').reduce((s,l) => s + l.valor, 0);
+  const saidas   = doMes.filter(l => l.tipo === 'saida').reduce((s,l) => s + l.valor, 0);
+  const saldo    = entradas - saidas;
+
+  document.getElementById('dash-entradas').textContent = fmtBRL(entradas);
+  document.getElementById('dash-saidas').textContent   = fmtBRL(saidas);
+
+  const elSaldo = document.getElementById('dash-saldo');
+  elSaldo.textContent = fmtBRL(saldo);
+  elSaldo.className   = 'saldo-valor ' + (saldo >= 0 ? 'pos' : 'neg');
+
+  // Meta e progresso
+  if (entradas > 0) {
+    const pct = Math.min((saidas / entradas) * 100, 100);
+    document.getElementById('progresso-wrap').style.display = 'block';
+    document.getElementById('progresso-pct').textContent = Math.round(pct) + '%';
+    const fill = document.getElementById('progresso-fill');
+    fill.style.width = pct + '%';
+    fill.className = 'progresso-fill' + (pct >= 90 ? ' critico' : pct >= 70 ? ' alerta' : '');
+
+    const metaEl = document.getElementById('dash-meta');
+    if (pct >= 90) metaEl.innerHTML = '🔴 <span>Gastos críticos</span> — ' + Math.round(pct) + '% da renda comprometida';
+    else if (pct >= 70) metaEl.innerHTML = '🟡 <span>Atenção</span> — ' + Math.round(pct) + '% da renda comprometida';
+    else metaEl.innerHTML = '🟢 <span>Saudável</span> — ' + Math.round(pct) + '% da renda comprometida';
+
+    document.getElementById('alerta-gastos').classList.toggle('visible', pct >= 80);
+  } else {
+    document.getElementById('progresso-wrap').style.display = 'none';
+    document.getElementById('dash-meta').textContent = 'Registre entradas e saídas para ver análises.';
+    document.getElementById('alerta-gastos').classList.remove('visible');
+  }
+
+  renderGraficoPizza(doMes);
+  renderBarrasCat(doMes);
+}
+
+/* ============================================================
+   GRÁFICO PIZZA (canvas nativo)
+============================================================ */
+function renderGraficoPizza(doMes) {
+  const saidas = doMes.filter(l => l.tipo === 'saida');
+  const canvas = document.getElementById('canvas-pizza');
+  const ctx    = canvas.getContext('2d');
+  const W = 120, H = 120, cx = 60, cy = 60, r = 50;
+
+  ctx.clearRect(0, 0, W, H);
+
+  if (!saidas.length) {
+    ctx.fillStyle = '#22223a';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    document.getElementById('pizza-legenda').innerHTML = '<div style="font-size:12px;color:var(--text-muted)">Sem despesas</div>';
+    return;
+  }
+
+  // Agrupar por categoria
+  const grupos = {};
+  saidas.forEach(l => { grupos[l.cat] = (grupos[l.cat] || 0) + l.valor; });
+  const total   = Object.values(grupos).reduce((s,v) => s + v, 0);
+  const entries = Object.entries(grupos).sort((a,b) => b[1]-a[1]);
+
+  let angle = -Math.PI / 2;
+  entries.forEach(([cat, val], i) => {
+    const slice = (val / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, angle, angle + slice);
+    ctx.closePath();
+    ctx.fillStyle = CAT_CORES[i % CAT_CORES.length];
+    ctx.fill();
+    angle += slice;
+  });
+
+  // Buraco central
+  ctx.beginPath();
+  ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#13131e';
+  ctx.fill();
+
+  // Legenda
+  const legEl = document.getElementById('pizza-legenda');
+  legEl.innerHTML = entries.slice(0,6).map(([cat, val], i) => {
+    const pct = Math.round((val/total)*100);
+    return (
+      '<div class="legenda-item">' +
+        '<div class="legenda-cor" style="background:' + CAT_CORES[i % CAT_CORES.length] + '"></div>' +
+        '<div class="legenda-nome">' + (CAT_EMOJI[cat]||'') + ' ' + cat + '</div>' +
+        '<div class="legenda-pct">' + pct + '%</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+/* ============================================================
+   GRÁFICO BARRAS CATEGORIAS
+============================================================ */
+function renderBarrasCat(doMes) {
+  const saidas = doMes.filter(l => l.tipo === 'saida');
+  const el     = document.getElementById('barras-cat');
+
+  if (!saidas.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">Sem despesas no período.</div>';
+    return;
+  }
+
+  const grupos = {};
+  saidas.forEach(l => { grupos[l.cat] = (grupos[l.cat] || 0) + l.valor; });
+  const entries = Object.entries(grupos).sort((a,b) => b[1]-a[1]);
+  const max     = entries[0][1];
+
+  el.innerHTML = entries.map(([cat, val], i) => {
+    const pct  = Math.round((val / max) * 100);
+    const cor  = CAT_CORES[i % CAT_CORES.length];
+    const emoji = CAT_EMOJI[cat] || '📌';
+    return (
+      '<div class="barra-item">' +
+        '<div class="barra-label">' + emoji + ' ' + cat.split(' ')[0] + '</div>' +
+        '<div class="barra-track">' +
+          '<div class="barra-fill" style="width:' + pct + '%;background:' + cor + '"></div>' +
+        '</div>' +
+        '<div class="barra-val">' + fmtBRL(val) + '</div>' +
       '</div>'
     );
   }).join('');
@@ -755,23 +1467,13 @@ function adicionarCompromisso() {
   if (!data) return showToast('Informe a data.', 'erro');
   if (!hora) return showToast('Informe a hora.', 'erro');
 
-  const novo = {
-    id: Date.now(),
-    desc,
-    data,
-    hora,
-    lembrete_enviado: false
-  };
-
-  compromissos.push(novo);
-  // Ordenar por data/hora crescente
-  compromissos.sort((a, b) => (a.data + a.hora) > (b.data + b.hora) ? 1 : -1);
+  compromissos.push({ id: Date.now(), desc, data, hora, lembrete_enviado: false });
+  compromissos.sort((a,b) => (a.data+a.hora) > (b.data+b.hora) ? 1 : -1);
   salvarCompromissos();
   renderCompromissos();
 
   document.getElementById('comp-desc').value = '';
   document.getElementById('comp-hora').value = '';
-
   showToast('📅 Compromisso agendado!', 'sucesso');
 }
 
@@ -783,97 +1485,155 @@ function excluirCompromisso(id) {
 }
 
 function salvarCompromissos() {
-  localStorage.setItem('finapp_compromissos', JSON.stringify(compromissos));
+  localStorage.setItem('samurai_compromissos', JSON.stringify(compromissos));
 }
 
 function renderCompromissos() {
-  const el = document.getElementById('lista-compromissos');
+  const el   = document.getElementById('lista-compromissos');
+  const agora = new Date();
 
   if (!compromissos.length) {
     el.innerHTML = '<div class="empty-state"><span>🗓️</span>Nenhum compromisso agendado.</div>';
     return;
   }
 
-  const agora = new Date();
-
   el.innerHTML = compromissos.map(c => {
-    const dt = new Date(c.data + 'T' + c.hora);
+    const dt      = new Date(c.data + 'T' + c.hora);
     const passado = dt < agora;
-    const dataFmt = dt.toLocaleDateString('pt-BR', {
-      weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
-    });
-    const horaFmt = c.hora;
+    const dataFmt = dt.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
 
     return (
       '<div class="compromisso-item ' + (passado ? 'passado' : '') + '">' +
         '<div>' +
           '<div class="compromisso-desc">' + escHtml(c.desc) + '</div>' +
-          '<div class="compromisso-dt">📅 ' + dataFmt + ' às ' + horaFmt + '</div>' +
+          '<div class="compromisso-dt">📅 ' + dataFmt + ' às ' + c.hora + '</div>' +
         '</div>' +
-        '<button class="btn-del" onclick="excluirCompromisso(' + c.id + ')" title="Excluir">✕</button>' +
+        '<button class="btn-del" onclick="excluirCompromisso(' + c.id + ')">✕</button>' +
       '</div>'
     );
   }).join('');
 }
 
 /* ============================================================
-   LEMBRETES AUTOMÁTICOS
-   Verifica a cada minuto se algum compromisso está acontecendo agora
+   ENVIAR RELATÓRIO POR EMAIL
+   Usa mailto: para abrir o app de email do dispositivo com o
+   relatório pronto no corpo da mensagem.
+   Futuramente pode ser substituído por uma API de email
+   (ex: EmailJS, SendGrid) sem mudar a estrutura.
+============================================================ */
+function enviarRelatorio() {
+  const emailEl = document.getElementById('email-destino');
+  const email   = emailEl.value.trim();
+
+  if (!email || !email.includes('@')) {
+    showToast('Informe um e-mail válido.', 'erro');
+    emailEl.focus();
+    return;
+  }
+
+  // Salva o email para não precisar digitar sempre
+  localStorage.setItem('samurai_email', email);
+  document.getElementById('email-salvo').innerHTML = 'E-mail salvo: <span>' + escHtml(email) + '</span>';
+
+  const mes    = mesSelecionado();
+  const doMes  = lancamentos.filter(l => l.data.startsWith(mes));
+  const [ano, mo] = mes.split('-');
+  const nomeMes = new Date(ano, mo - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+  const entradas = doMes.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
+  const saidas   = doMes.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
+  const saldo    = entradas - saidas;
+
+  // Gastos por categoria
+  const grupos = {};
+  doMes.filter(l => l.tipo === 'saida').forEach(l => {
+    grupos[l.cat] = (grupos[l.cat] || 0) + l.valor;
+  });
+  const catLinhas = Object.entries(grupos)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cat, val]) => '  ' + (CAT_EMOJI[cat] || '') + ' ' + cat + ': ' + fmtBRL(val))
+    .join('\n');
+
+  // Lista de lançamentos
+  const lancLinhas = doMes.map(l => {
+    const sinal = l.tipo === 'entrada' ? '+' : '-';
+    const data  = new Date(l.data + 'T00:00:00').toLocaleDateString('pt-BR');
+    return '  ' + data + ' | ' + (CAT_EMOJI[l.cat]||'') + ' ' + l.desc + ' | ' + sinal + ' ' + fmtBRL(l.valor);
+  }).join('\n');
+
+  const saude = entradas > 0
+    ? (Math.round((saidas / entradas) * 100) + '% da renda comprometida')
+    : 'Sem receitas registradas';
+
+  const corpo =
+    'RELATORIO FINANCEIRO - ' + nomeMes.toUpperCase() + '\n' +
+    '==========================================\n\n' +
+    'RESUMO\n' +
+    '------\n' +
+    'Total de Entradas : ' + fmtBRL(entradas) + '\n' +
+    'Total de Saidas   : ' + fmtBRL(saidas) + '\n' +
+    'Saldo do Mes      : ' + fmtBRL(saldo) + '\n' +
+    'Saude Financeira  : ' + saude + '\n\n' +
+    (catLinhas ? 'GASTOS POR CATEGORIA\n--------------------\n' + catLinhas + '\n\n' : '') +
+    (lancLinhas ? 'LANCAMENTOS\n-----------\n' + lancLinhas + '\n\n' : 'Nenhum lancamento no mes.\n\n') +
+    '--\nEnviado pelo Samurai Financas';
+
+  const assunto = encodeURIComponent('Relatorio Financeiro - ' + nomeMes);
+  const body    = encodeURIComponent(corpo);
+
+  window.location.href = 'mailto:' + encodeURIComponent(email) + '?subject=' + assunto + '&body=' + body;
+
+  showToast('📧 Abrindo seu app de e-mail...', 'sucesso');
+}
+
+/* ============================================================
+   LEMBRETES
 ============================================================ */
 function verificarLembretes() {
-  const agora   = new Date();
-  const anoAtual = agora.getFullYear();
-  const mesAtual = String(agora.getMonth() + 1).padStart(2, '0');
-  const diaAtual = String(agora.getDate()).padStart(2, '0');
-  const hrAtual  = String(agora.getHours()).padStart(2, '0');
-  const minAtual = String(agora.getMinutes()).padStart(2, '0');
-  const agoraStr = anoAtual + '-' + mesAtual + '-' + diaAtual + 'T' + hrAtual + ':' + minAtual;
+  const agora = new Date();
+  const str   = agora.getFullYear() + '-' +
+    String(agora.getMonth()+1).padStart(2,'0') + '-' +
+    String(agora.getDate()).padStart(2,'0') + 'T' +
+    String(agora.getHours()).padStart(2,'0') + ':' +
+    String(agora.getMinutes()).padStart(2,'0');
 
   let salvou = false;
   compromissos.forEach(c => {
-    const compStr = c.data + 'T' + c.hora;
-    if (compStr === agoraStr && !c.lembrete_enviado) {
+    if ((c.data + 'T' + c.hora) === str && !c.lembrete_enviado) {
       showToast('⏰ Lembrete: ' + c.desc, 'lembrete');
       c.lembrete_enviado = true;
       salvou = true;
     }
   });
-
   if (salvou) salvarCompromissos();
 }
 
 /* ============================================================
    UTILITÁRIOS
 ============================================================ */
-function formatBRL(valor) {
-  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+function fmtBRL(v) {
+  return v.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
 }
 
-// Sanitiza texto para evitar XSS ao inserir no HTML
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function showToast(msg, tipo) {
-  const container = document.getElementById('toast-container');
+  const c   = document.getElementById('toast-container');
   const div = document.createElement('div');
-  div.className = 'toast ' + (tipo || '');
+  div.className   = 'toast ' + (tipo||'');
   div.textContent = msg;
-  container.appendChild(div);
+  c.appendChild(div);
   setTimeout(() => div.remove(), 3300);
 }
 
-/* ============================================================
-   REGISTRO DO SERVICE WORKER
-============================================================ */
+/* Service Worker */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('SW registrado:', reg.scope))
-      .catch(err => console.warn('SW erro:', err));
+    navigator.serviceWorker.register('service-worker.js').catch(e => console.warn('SW:', e));
   });
 }
 </script>
-
 </body>
 </html>
