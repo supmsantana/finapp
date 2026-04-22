@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FinApp" />
+  <title>FinApp</title>
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Ícone Apple Touch -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===========================
+       VARIÁVEIS E RESET
+    =========================== */
+    :root {
+      --bg:          #0f172a;
+      --surface:     #1e293b;
+      --surface2:    #263449;
+      --border:      rgba(148,163,184,0.12);
+      --text:        #e2e8f0;
+      --text-muted:  #94a3b8;
+      --green:       #22d3a0;
+      --green-dim:   rgba(34,211,160,0.12);
+      --red:         #f87171;
+      --red-dim:     rgba(248,113,113,0.12);
+      --blue:        #60a5fa;
+      --blue-dim:    rgba(96,165,250,0.12);
+      --accent:      #818cf8;
+      --accent-dim:  rgba(129,140,248,0.15);
+      --radius:      14px;
+      --radius-sm:   8px;
+      --shadow:      0 4px 24px rgba(0,0,0,0.35);
+      --font:        'DM Sans', sans-serif;
+      --mono:        'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===========================
+       ESTRUTURA BASE
+    =========================== */
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 20px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--accent); }
+
+    .header-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    /* Tabs de navegação */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 14px 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 9px 4px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* Seções */
+    .section {
+      padding: 20px;
+      display: none;
+    }
+
+    .section.active { display: block; }
+
+    /* ===========================
+       CARDS RESUMO
+    =========================== */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+    }
+
+    .summary-card.full { grid-column: 1 / -1; }
+
+    .summary-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .summary-value {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--mono);
+      letter-spacing: -0.5px;
+    }
+
+    .summary-value.green { color: var(--green); }
+    .summary-value.red   { color: var(--red); }
+    .summary-value.saldo-pos { color: var(--text); }
+    .summary-value.saldo-neg { color: var(--red); }
+
+    /* ===========================
+       FORMULÁRIO
+    =========================== */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    input, select, textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    select option { background: var(--surface); }
+
+    /* Tipo entrada/saída */
+    .tipo-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tipo-btn {
+      flex: 1;
+      padding: 9px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tipo-btn.entrada.active {
+      background: var(--green-dim);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .tipo-btn.saida.active {
+      background: var(--red-dim);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Botão principal */
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ===========================
+       LISTA DE LANÇAMENTOS
+    =========================== */
+    .list-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .lancamento-item {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 13px 14px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .lancamento-item.entrada { border-left: 3px solid var(--green); }
+    .lancamento-item.saida   { border-left: 3px solid var(--red); }
+
+    .lancamento-desc {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+
+    .lancamento-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .lancamento-valor {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .lancamento-valor.green { color: var(--green); }
+    .lancamento-valor.red   { color: var(--red); }
+
+    .btn-del {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-del:hover { color: var(--red); background: var(--red-dim); }
+
+    /* ===========================
+       AGENDA
+    =========================== */
+    .compromisso-item {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 13px 14px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .compromisso-item.passado { border-left-color: var(--text-muted); opacity: 0.6; }
+
+    .compromisso-desc {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .compromisso-dt {
+      font-size: 11px;
+      color: var(--blue);
+      font-family: var(--mono);
+    }
+
+    .compromisso-item.passado .compromisso-dt { color: var(--text-muted); }
+
+    /* ===========================
+       EMPTY STATE
+    =========================== */
+    .empty-state {
+      text-align: center;
+      padding: 36px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .empty-state span { display: block; font-size: 28px; margin-bottom: 8px; }
+
+    /* ===========================
+       TOAST / NOTIFICAÇÃO
+    =========================== */
+    #toast-container {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 90%;
+      max-width: 400px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 8px;
+      animation: slideUp 0.3s ease, fadeOut 0.4s ease 2.8s forwards;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.lembrete {
+      border-color: var(--blue);
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+
+    .toast.sucesso { border-color: var(--green); color: var(--green); }
+    .toast.erro    { border-color: var(--red); color: var(--red); }
+
+    /* ===========================
+       ANIMAÇÕES
+    =========================== */
+    @keyframes fadeIn   { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut  { to { opacity: 0; } }
+
+    /* ===========================
+       SCROLLBAR
+    =========================== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <div class="logo">Fin<span>App</span></div>
+      <div class="header-date" id="header-date"></div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="mudarTab('financas')" id="tab-financas">
+      💰 Finanças
+    </button>
+    <button class="tab-btn" onclick="mudarTab('agenda')" id="tab-agenda">
+      📅 Agenda
+    </button>
+  </div>
+
+  <!-- =====================
+       SEÇÃO FINANÇAS
+  ===================== -->
+  <div class="section active" id="sec-financas">
+
+    <!-- Cards resumo -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Entradas</div>
+        <div class="summary-value green" id="total-entradas">R$ 0,00</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Saídas</div>
+        <div class="summary-value red" id="total-saidas">R$ 0,00</div>
+      </div>
+      <div class="summary-card full">
+        <div class="summary-label">Saldo Atual</div>
+        <div class="summary-value saldo-pos" id="saldo-atual">R$ 0,00</div>
+      </div>
+    </div>
+
+    <!-- Formulário novo lançamento -->
+    <div class="card">
+      <div class="card-title">Novo Lançamento</div>
+
+      <div class="form-group" style="margin-bottom:10px">
+        <label>Descrição</label>
+        <input type="text" id="fin-desc" placeholder="Ex: Salário, Aluguel..." maxlength="60" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Valor (R$)</label>
+          <input type="number" id="fin-valor" placeholder="0,00" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="fin-data" />
+        </div>
+      </div>
+
+      <div class="tipo-group">
+        <button class="tipo-btn entrada active" id="btn-entrada" onclick="selecionarTipo('entrada')">
+          ↑ Entrada
+        </button>
+        <button class="tipo-btn saida" id="btn-saida" onclick="selecionarTipo('saida')">
+          ↓ Saída
+        </button>
+      </div>
+
+      <button class="btn-primary" onclick="adicionarLancamento()">Registrar</button>
+    </div>
+
+    <!-- Lista de lançamentos -->
+    <div class="list-title">Lançamentos</div>
+    <div id="lista-lancamentos"></div>
+  </div>
+
+  <!-- =====================
+       SEÇÃO AGENDA
+  ===================== -->
+  <div class="section" id="sec-agenda">
+
+    <!-- Formulário novo compromisso -->
+    <div class="card">
+      <div class="card-title">Novo Compromisso</div>
+
+      <div class="form-group" style="margin-bottom:10px">
+        <label>Descrição</label>
+        <input type="text" id="comp-desc" placeholder="Ex: Reunião, Consulta..." maxlength="60" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="comp-data" />
+        </div>
+        <div class="form-group">
+          <label>Hora</label>
+          <input type="time" id="comp-hora" />
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="adicionarCompromisso()">Agendar</button>
+    </div>
+
+    <!-- Lista de compromissos -->
+    <div class="list-title">Compromissos</div>
+    <div id="lista-compromissos"></div>
+  </div>
+
+</div>
+
+<!-- Container de toasts -->
+<div id="toast-container"></div>
+
+<!-- =====================
+     JAVASCRIPT
+===================== -->
+<script>
+/* ============================================================
+   ESTADO DA APLICAÇÃO
+   Todos os dados ficam em memória e são persistidos via localStorage
+============================================================ */
+
+// ---- Futura integração WhatsApp (Meta API) ----
+// Para integrar com a API oficial do WhatsApp Business no futuro:
+// 1. Criar conta no Meta Business Suite e cadastrar número
+// 2. Obter token de acesso permanente no painel Meta for Developers
+// 3. Usar endpoint: POST https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages
+//    com headers: { Authorization: "Bearer SEU_TOKEN", Content-Type: "application/json" }
+//    body: { messaging_product: "whatsapp", to: "5521XXXXXXXXX", type: "text", text: { body: "mensagem" } }
+// 4. A função de envio pode ser chamada ao adicionar lançamentos ou lembretes de compromissos
+// const WHATSAPP_TOKEN = "";         // <-- preencher futuramente
+// const WHATSAPP_PHONE_ID = "";      // <-- preencher futuramente
+// async function enviarWhatsApp(numero, mensagem) { /* implementar */ }
+// -------------------------------------------------------
+
+let lancamentos  = JSON.parse(localStorage.getItem('finapp_lancamentos') || '[]');
+let compromissos = JSON.parse(localStorage.getItem('finapp_compromissos') || '[]');
+let tipoSelecionado = 'entrada';
+
+/* ============================================================
+   INICIALIZAÇÃO
+============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Data atual no header
+  const agora = new Date();
+  document.getElementById('header-date').textContent =
+    agora.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+
+  // Preencher data de hoje nos formulários
+  const hoje = agora.toISOString().split('T')[0];
+  document.getElementById('fin-data').value  = hoje;
+  document.getElementById('comp-data').value = hoje;
+
+  renderLancamentos();
+  renderCompromissos();
+  atualizarResumo();
+
+  // Verificar lembretes a cada minuto
+  verificarLembretes();
+  setInterval(verificarLembretes, 60000);
+});
+
+/* ============================================================
+   NAVEGAÇÃO POR TABS
+============================================================ */
+function mudarTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+/* ============================================================
+   FINANÇAS
+============================================================ */
+function selecionarTipo(tipo) {
+  tipoSelecionado = tipo;
+  document.getElementById('btn-entrada').classList.toggle('active', tipo === 'entrada');
+  document.getElementById('btn-saida').classList.toggle('active', tipo === 'saida');
+}
+
+function adicionarLancamento() {
+  const desc  = document.getElementById('fin-desc').value.trim();
+  const valor = parseFloat(document.getElementById('fin-valor').value);
+  const data  = document.getElementById('fin-data').value;
+
+  if (!desc)            return showToast('Informe a descrição.', 'erro');
+  if (!valor || valor <= 0) return showToast('Informe um valor válido.', 'erro');
+  if (!data)            return showToast('Informe a data.', 'erro');
+
+  const novo = {
+    id: Date.now(),
+    desc,
+    valor,
+    tipo: tipoSelecionado,
+    data
+  };
+
+  lancamentos.unshift(novo);
+  salvarLancamentos();
+  renderLancamentos();
+  atualizarResumo();
+
+  // Limpar campos
+  document.getElementById('fin-desc').value  = '';
+  document.getElementById('fin-valor').value = '';
+  selecionarTipo('entrada');
+
+  showToast(tipoSelecionado === 'entrada' ? '✅ Entrada registrada!' : '✅ Saída registrada!', 'sucesso');
+}
+
+function excluirLancamento(id) {
+  lancamentos = lancamentos.filter(l => l.id !== id);
+  salvarLancamentos();
+  renderLancamentos();
+  atualizarResumo();
+  showToast('Lançamento removido.', '');
+}
+
+function salvarLancamentos() {
+  localStorage.setItem('finapp_lancamentos', JSON.stringify(lancamentos));
+}
+
+function atualizarResumo() {
+  const entradas = lancamentos.filter(l => l.tipo === 'entrada').reduce((s, l) => s + l.valor, 0);
+  const saidas   = lancamentos.filter(l => l.tipo === 'saida').reduce((s, l) => s + l.valor, 0);
+  const saldo    = entradas - saidas;
+
+  document.getElementById('total-entradas').textContent = formatBRL(entradas);
+  document.getElementById('total-saidas').textContent   = formatBRL(saidas);
+
+  const el = document.getElementById('saldo-atual');
+  el.textContent = formatBRL(saldo);
+  el.className = 'summary-value ' + (saldo >= 0 ? 'saldo-pos' : 'saldo-neg');
+}
+
+function renderLancamentos() {
+  const el = document.getElementById('lista-lancamentos');
+
+  if (!lancamentos.length) {
+    el.innerHTML = '<div class="empty-state"><span>💸</span>Nenhum lançamento ainda.</div>';
+    return;
+  }
+
+  el.innerHTML = lancamentos.map(l => {
+    const dataFmt = new Date(l.data + 'T00:00:00').toLocaleDateString('pt-BR', {
+      day: '2-digit', month: 'short', year: 'numeric'
+    });
+    const sinal = l.tipo === 'entrada' ? '+' : '-';
+    const cor   = l.tipo === 'entrada' ? 'green' : 'red';
+
+    return (
+      '<div class="lancamento-item ' + l.tipo + '">' +
+        '<div>' +
+          '<div class="lancamento-desc">' + escHtml(l.desc) + '</div>' +
+          '<div class="lancamento-date">' + dataFmt + '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          '<div class="lancamento-valor ' + cor + '">' + sinal + ' ' + formatBRL(l.valor) + '</div>' +
+          '<button class="btn-del" onclick="excluirLancamento(' + l.id + ')" title="Excluir">✕</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+/* ============================================================
+   AGENDA
+============================================================ */
+function adicionarCompromisso() {
+  const desc = document.getElementById('comp-desc').value.trim();
+  const data = document.getElementById('comp-data').value;
+  const hora = document.getElementById('comp-hora').value;
+
+  if (!desc) return showToast('Informe a descrição.', 'erro');
+  if (!data) return showToast('Informe a data.', 'erro');
+  if (!hora) return showToast('Informe a hora.', 'erro');
+
+  const novo = {
+    id: Date.now(),
+    desc,
+    data,
+    hora,
+    lembrete_enviado: false
+  };
+
+  compromissos.push(novo);
+  // Ordenar por data/hora crescente
+  compromissos.sort((a, b) => (a.data + a.hora) > (b.data + b.hora) ? 1 : -1);
+  salvarCompromissos();
+  renderCompromissos();
+
+  document.getElementById('comp-desc').value = '';
+  document.getElementById('comp-hora').value = '';
+
+  showToast('📅 Compromisso agendado!', 'sucesso');
+}
+
+function excluirCompromisso(id) {
+  compromissos = compromissos.filter(c => c.id !== id);
+  salvarCompromissos();
+  renderCompromissos();
+  showToast('Compromisso removido.', '');
+}
+
+function salvarCompromissos() {
+  localStorage.setItem('finapp_compromissos', JSON.stringify(compromissos));
+}
+
+function renderCompromissos() {
+  const el = document.getElementById('lista-compromissos');
+
+  if (!compromissos.length) {
+    el.innerHTML = '<div class="empty-state"><span>🗓️</span>Nenhum compromisso agendado.</div>';
+    return;
+  }
+
+  const agora = new Date();
+
+  el.innerHTML = compromissos.map(c => {
+    const dt = new Date(c.data + 'T' + c.hora);
+    const passado = dt < agora;
+    const dataFmt = dt.toLocaleDateString('pt-BR', {
+      weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+    });
+    const horaFmt = c.hora;
+
+    return (
+      '<div class="compromisso-item ' + (passado ? 'passado' : '') + '">' +
+        '<div>' +
+          '<div class="compromisso-desc">' + escHtml(c.desc) + '</div>' +
+          '<div class="compromisso-dt">📅 ' + dataFmt + ' às ' + horaFmt + '</div>' +
+        '</div>' +
+        '<button class="btn-del" onclick="excluirCompromisso(' + c.id + ')" title="Excluir">✕</button>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+/* ============================================================
+   LEMBRETES AUTOMÁTICOS
+   Verifica a cada minuto se algum compromisso está acontecendo agora
+============================================================ */
+function verificarLembretes() {
+  const agora   = new Date();
+  const anoAtual = agora.getFullYear();
+  const mesAtual = String(agora.getMonth() + 1).padStart(2, '0');
+  const diaAtual = String(agora.getDate()).padStart(2, '0');
+  const hrAtual  = String(agora.getHours()).padStart(2, '0');
+  const minAtual = String(agora.getMinutes()).padStart(2, '0');
+  const agoraStr = anoAtual + '-' + mesAtual + '-' + diaAtual + 'T' + hrAtual + ':' + minAtual;
+
+  let salvou = false;
+  compromissos.forEach(c => {
+    const compStr = c.data + 'T' + c.hora;
+    if (compStr === agoraStr && !c.lembrete_enviado) {
+      showToast('⏰ Lembrete: ' + c.desc, 'lembrete');
+      c.lembrete_enviado = true;
+      salvou = true;
+    }
+  });
+
+  if (salvou) salvarCompromissos();
+}
+
+/* ============================================================
+   UTILITÁRIOS
+============================================================ */
+function formatBRL(valor) {
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+// Sanitiza texto para evitar XSS ao inserir no HTML
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg, tipo) {
+  const container = document.getElementById('toast-container');
+  const div = document.createElement('div');
+  div.className = 'toast ' + (tipo || '');
+  div.textContent = msg;
+  container.appendChild(div);
+  setTimeout(() => div.remove(), 3300);
+}
+
+/* ============================================================
+   REGISTRO DO SERVICE WORKER
+============================================================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('SW registrado:', reg.scope))
+      .catch(err => console.warn('SW erro:', err));
+  });
+}
+</script>
+
+</body>
+</html>
